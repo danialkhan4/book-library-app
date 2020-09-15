@@ -1,0 +1,45 @@
+.nav {
+    background-color:#FAFBFC;
+    position: fixed;
+    height:55px;
+    right: 0;
+    left: 0;
+    top: 0;
+    overflow: hidden;
+    box-shadow: 0 2px 2px -2px rgba(0,0,0,.2);
+
+
+    -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+    -khtml-user-select: none; /* Konqueror HTML */
+        -moz-user-select: none; /* Old versions of Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+            user-select: none; /* Non-prefixed version, currently
+                                    supported by Chrome, Edge, Opera and Firefox */
+}
+  
+.nav a {
+    float: left;
+    color: #6C757D;
+    text-align: center;
+    padding: 19px 16px;
+    text-decoration: none;
+    font-size: 13px;
+}
+
+.nav a:hover {
+    color: black;
+    cursor: pointer;
+}
+
+.nav a.active {
+}
+
+#title {
+    padding-right:105px;
+    color: #6C757D !important;
+    cursor: default !important;
+    font-family: 'Verdana, Geneva, sans-serif';
+    font-size: 18px;
+}
+
