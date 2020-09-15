@@ -6,7 +6,7 @@
     left: 0;
     top: 0;
     overflow: hidden;
-    box-shadow: 0 2px 2px -2px rgba(0,0,0,.2);
+    box-shadow: 0 2px 4px -2px rgba(0,0,0,.2);
 
 
     -webkit-touch-callout: none; /* iOS Safari */
@@ -22,9 +22,9 @@
     float: left;
     color: #6C757D;
     text-align: center;
-    padding: 19px 16px;
+    padding: 18px 16px;
     text-decoration: none;
-    font-size: 13px;
+    font-size: 14px;
 }
 
 .nav a:hover {
@@ -32,11 +32,8 @@
     cursor: pointer;
 }
 
-.nav a.active {
-}
-
 #title {
-    padding-right:105px;
+    padding-right:140px;
     color: #6C757D !important;
     cursor: default !important;
     font-family: 'Verdana, Geneva, sans-serif';
