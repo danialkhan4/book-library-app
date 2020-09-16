@@ -1,0 +1,25 @@
+.bookSearch {
+    position: absolute;
+    margin-left:280px;
+    margin-top:80px;
+    margin-right:25px;
+    
+}
+
+
+
+#numInput {
+    width: 250px;
+}
+
+.listing {
+    display: flex;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    margin:10px;
+}
+
+.book {
+    margin-right:10px;
+    border: 1px solid;
+}

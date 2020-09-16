@@ -25,7 +25,7 @@ function Sidebar() {
                     <Menu.Item key="2">Option 2</Menu.Item>
                 </Menu.ItemGroup>
 
-                <Menu.ItemGroup key="g2" title="Shelf 2">
+                <Menu.ItemGroup key="g2" title="Shelf">
                     <Menu.Item key="3">Option 3</Menu.Item>
                     <Menu.Item key="4">Option 4</Menu.Item>
                 </Menu.ItemGroup>
