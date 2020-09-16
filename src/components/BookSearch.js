@@ -25,17 +25,19 @@ function BookSearch() {
             })
     }
 
+
+
 	return (
 		<div className="bookSearch">
-            		<input id="numInput" placeholder="ISBN" />
-            		<Button onClick={handleSearch}icon={<SearchOutlined />} >Search</Button>
-            			<div className="listing">
-            			{
-                			books.map((item, i) => {
-                    				return <Book name={item.volumeInfo.title}thumbnail={item.volumeInfo.imageLinks.smallThumbnail}/>
-                			})
-            			}			
-            			</div>
+            <input id="numInput" placeholder="ISBN" />
+            <Button onClick={handleSearch}icon={<SearchOutlined />} >Search</Button>
+            <div className="listing">
+            {
+                books.map((item, i) => {
+                    return <Book name={item.volumeInfo.title}thumbnail={item.volumeInfo.imageLinks.smallThumbnail}/>
+                })
+            }
+            </div>
 		</div>
 	);
 }
