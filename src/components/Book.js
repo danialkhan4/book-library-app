@@ -1,12 +1,30 @@
 import React, {useState} from 'react';
-import { Card } from 'antd';
-import '../css/booksearch.css';
+import { Card, Typography  } from 'antd';
+import '../css/book.css';
 
-const { Meta } = Card;
+
+const { Text, Link, Title } = Typography;
 
 function Book(props) {
+	console.log(props.authors);
+	var authorsList = [];
+	for (let i = 0; i < props.authors.length; i++) {
+		authorsList.push(<p>{props.authors[i]}</p>);
+	}
 	return (
-		<img className="book" alt="example" src={props.thumbnail} />
+		<div className="bookCard"> 
+			<img className="imageContainer" src={props.thumbnail} />
+			<Card className="textContainer" >
+				<Text >{props.name}<br/></Text>
+      			<Text >{props.subtitle}<br/></Text>
+				<div>
+					{authorsList}
+				</div>
+      			
+					  
+    		</Card>
+		</div>
+
 	);
 }
 
