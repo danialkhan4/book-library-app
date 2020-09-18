@@ -7,11 +7,13 @@ import { SearchOutlined } from '@ant-design/icons';
 import Book from './Book';
 import '../css/booksearch.css';
 
+const { Search } = Input;
+
+
 function BookSearch() {
     const [books, setBooks ] = useState([]);
     const [searchInput, setSearchInput] = useState(' ');
     const [loading, setLoading] = useState(false);
-
 
     function handleInput(event) {
         setSearchInput(event.target.value);
@@ -23,6 +25,7 @@ function BookSearch() {
     }, [searchInput]);
     */
     function handleSearch() {
+        
         if (searchInput.length === 0 || !searchInput.trim()) {
             console.log("enter something lol");
         } else {
@@ -41,9 +44,9 @@ function BookSearch() {
 
 	return (
 		<div className="bookSearch">
-            <input onChange={handleInput}id="numInput" placeholder="Book Title" />
-            <Button onClick={handleSearch}icon={<SearchOutlined />} >Search</Button>
-
+            <div id="numInput">
+                <Search onChange={handleInput} placeholder="Book Title" onSearch={handleSearch} enterButton />
+            </div>
             <div className="listing">
             {
                 books && books.map((item, i) => {
@@ -52,12 +55,26 @@ function BookSearch() {
                             thumbnail: "default",
                             smallThumbnail: "default"
                         }
-                    } else {
-                        return <Book name={item.volumeInfo.title} 
-                        thumbnail={item.volumeInfo.imageLinks.smallThumbnail} 
-                        subtitle= {item.volumeInfo.subtitle}
-                        authors = {item.volumeInfo.authors}/>
                     }
+                    if (typeof(item.volumeInfo.subtitle) === 'undefined') {
+                        item.volumeInfo.subtitle = false;
+                    } 
+                    if (typeof(item.volumeInfo.authors) === 'undefined') {
+                        item.volumeInfo.authors = [" "];
+
+                    } 
+
+                    if (typeof(item.volumeInfo.title) === 'undefined') {
+                        item.volumeInfo.title = " ";
+
+                    } 
+
+                    return <Book key={item.id}
+                    name={item.volumeInfo.title} 
+                    thumbnail={item.volumeInfo.imageLinks.smallThumbnail} 
+                    subtitle= {item.volumeInfo.subtitle}
+                    authors = {item.volumeInfo.authors}/>
+                    
                 })
             }
             </div>
