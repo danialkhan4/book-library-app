@@ -13,14 +13,13 @@ function App() {
 	return (
 		<Router>
 			<div className="App">
-				<div className="navBar">
-					<div className="navElements">
-						<Link id="title" to ="/">Books Library</Link>
-						<Link to ="/">My Library</Link>
-						<Link to ="/search">Search</Link>
-						<Link to ="/">Settings</Link>
-					</div>
+				<div className="navElements">
+					<Link id="title" to ="/">Books Library</Link>
+					<Link to ="/">My Library</Link>
+					<Link to ="/search">Search</Link>
+					<Link to ="/">Settings</Link>
 				</div>
+
 			</div>
 
 			{/* home page (side bar + library)*/}

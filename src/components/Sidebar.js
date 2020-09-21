@@ -9,8 +9,6 @@ function Sidebar() {
         <div className="sidebar">
             <Menu
                 style={{ width: 256 }}
-                defaultSelectedKeys={['1']}
-                defaultOpenKeys={['sub1']}
                 mode="inline"
                 className="sidebar"
             >
