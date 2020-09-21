@@ -1,4 +1,6 @@
-.nav {
+/* nav bar elements/links */
+
+.navElements {
     background-color:#FAFBFC;
     position: fixed;
     height:55px;
@@ -19,7 +21,7 @@
     z-index:2;
 }
   
-.nav a {
+.navElements a {
     float: left;
     color: #6C757D;
     text-align: center;
@@ -28,11 +30,12 @@
     font-size: 14px;
 }
 
-.nav a:hover {
+.navElements a:hover {
     color: black;
     cursor: pointer;
 }
 
+/* top left logo */
 #title {
     padding-right:140px;
     color: #6C757D !important;

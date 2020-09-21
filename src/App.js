@@ -1,20 +1,35 @@
 import React from 'react';
-import { Button, Layout } from 'antd';
 
-import Navbar from './components/Navbar';
+import {Route, BrowserRouter as Router, Link} from  "react-router-dom";
+
 import Sidebar from './components/Sidebar';
-import BookSearch from './components/BookSearch';
+import SearchPage from './components/SearchPage';
+import Library from './components/Library';
 
-import './index.css';
-
+import './css/index.css';
+import './css/navbar.css';
 
 function App() {
 	return (
-		<div className="App">
-			<Navbar />
-			<Sidebar />
-			<BookSearch />
-		</div>
+		<Router>
+			<div className="App">
+				<div className="navBar">
+					<div className="navElements">
+						<Link id="title" to ="/">Books Library</Link>
+						<Link to ="/">My Library</Link>
+						<Link to ="/search">Search</Link>
+						<Link to ="/">Settings</Link>
+					</div>
+				</div>
+			</div>
+
+			{/* home page (side bar + library)*/}
+			<Route path ="/" component={Sidebar}/>
+			<Route path ="/" exact component={Library}/>
+
+			{/* search page */}
+			<Route path ="/search" component={SearchPage}/>
+		</Router>
 	);
 }
 
