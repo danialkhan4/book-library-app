@@ -3,7 +3,6 @@
 .bookSearch {
     position: absolute;
     margin-left:280px;
-    margin-top:80px;
     margin-right:25px;
     z-index:1;
 }
@@ -11,7 +10,6 @@
 
 #numInput {
     width: 350px;
-    margin-left:10px;
 }
 
 .listing {
@@ -20,5 +18,4 @@
     flex-wrap: wrap;
     margin:10px;
     z-index:1;
-    
 }

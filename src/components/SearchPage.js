@@ -22,17 +22,20 @@ function SearchPage() {
 	*/
     function handleSearch() {
         if (searchInput.length === 0 || !searchInput.trim()) {
-            console.log("nothing entered");
-        } else {
-            console.log("fetching [" + searchInput.trim() +"] ");
-            fetch("https://www.googleapis.com/books/v1/volumes?q="+searchInput.trim()+"&key=AIzaSyC8h_mfSuQv6QnzAbucMydsQlFOVEvhU_o")
-            .then(response => response.json())
-            .then(response => { 
-                if (searchInput.length !== 0 || searchInput.trim()) 
-                        setBooks(response.items);
-            
-            })
-        }  
+            //TODO: error messages
+            return;
+        }
+
+        fetch("https://www.googleapis.com/books/v1/volumes?q="+searchInput.trim()+"&key=AIzaSyC8h_mfSuQv6QnzAbucMydsQlFOVEvhU_o")
+        .then(response => response.json())
+        .then(response => { 
+            if ( searchInput.length !== 0 || searchInput.trim() ) 
+                setBooks(response.items);
+        })
+        .catch((error) => {
+            console.log("Error: ", error);
+        })
+
     }
 
     /*

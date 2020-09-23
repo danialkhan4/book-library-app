@@ -1,16 +1,20 @@
-/* nav bar elements/links */
-
-.navElements {
+.navbar {
+    display: flex;
+    align-items: center;
     background-color:#FAFBFC;
-    position: fixed;
-    height:55px;
-    right: 0;
-    left: 0;
-    top: 0;
-    overflow: hidden;
+    color: white;
     box-shadow: 0 2px 4px -2px rgba(0,0,0,.2);
+    margin-bottom: 1rem;
+}
 
+/* top left logo */
+.title {
+    margin: .5rem;
+    font-size: 1.2rem;
+    padding-right: 7.6rem;
+}
 
+.buttons ul {
     -webkit-touch-callout: none; /* iOS Safari */
     -webkit-user-select: none; /* Safari */
     -khtml-user-select: none; /* Konqueror HTML */
@@ -18,29 +22,43 @@
         -ms-user-select: none; /* Internet Explorer/Edge */
             user-select: none; /* Non-prefixed version, currently
                                     supported by Chrome, Edge, Opera and Firefox */
-    z-index:2;
+    margin: 0;
+    padding: 0;
+    display: flex;
+
+
 }
   
-.navElements a {
-    float: left;
-    color: #6C757D;
-    text-align: center;
-    padding: 18px 16px;
-    text-decoration: none;
-    font-size: 14px;
+.buttons li {
+    list-style: none;
 }
 
-.navElements a:hover {
+.buttons li a {
+    text-decoration: none;
+    color: #6C757D;
+    font-size: 0.9rem;
+    padding: 1.2rem;
+    display: block;
+}
+.buttons li a:hover {
     color: black;
     cursor: pointer;
+    background-color:#f0f3f5;
 }
 
-/* top left logo */
-#title {
-    padding-right:140px;
-    color: #6C757D !important;
-    cursor: default !important;
-    font-family: 'Verdana, Geneva, sans-serif';
-    font-size: 18px;
+.toggle {
+    position: absolute;
+    left: 90%;
+    font-size: 1.5rem;
+    display: none;
+    flex-direction: column;
+    justify-content: space-between;
+    padding-top: 0.5rem;
 }
 
+.toggle .menu-item {
+    height: 3px;
+    width: 100%;
+    background-color: white;
+    border-radius: 10px;
+}

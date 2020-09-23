@@ -1,6 +1,6 @@
 import React from 'react';
-
-import {Route, BrowserRouter as Router, Link} from  "react-router-dom";
+import {Route, BrowserRouter as Router, Link} from  'react-router-dom';
+import {MenuOutlined} from '@ant-design/icons';
 
 import Sidebar from './components/Sidebar';
 import SearchPage from './components/SearchPage';
@@ -13,11 +13,25 @@ function App() {
 	return (
 		<Router>
 			<div className="App">
-				<div className="navElements">
-					<Link id="title" to ="/">Books Library</Link>
-					<Link to ="/">My Library</Link>
-					<Link to ="/search">Search</Link>
-					<Link to ="/">Settings</Link>
+
+				<div className="navbar">
+
+					<div className="title"><Link id="title" to ="/">Books Library</Link></div>
+
+					<a href="#/" className="toggle"><MenuOutlined />
+						<span className="menu-item"></span>
+						<span className="menu-item"></span>
+						<span className="menu-item"></span>
+					</a>
+
+					<div className="buttons">
+						<ul>
+						<li><Link to ="/">My Library</Link></li>
+						<li><Link to ="/search">Search</Link></li>
+						<li><Link to ="/">Settings</Link></li>
+						</ul>
+
+					</div>
 				</div>
 
 			</div>
