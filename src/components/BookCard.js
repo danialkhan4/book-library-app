@@ -1,6 +1,6 @@
 import React from 'react';
 import { Typography, Button, Menu, Dropdown   } from 'antd';
-import '../css/book.css';
+import '../css/bookcard.css';
 
 import { DownOutlined, ImportOutlined } from '@ant-design/icons'
 

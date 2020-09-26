@@ -1,28 +1,25 @@
 import React from 'react';
 import '../css/sidebar.css';
 
-import { Menu } from 'antd';
+import { Menu, Button } from 'antd';
 import 'antd/dist/antd.css';
 
 function Sidebar() {
 	return (
         <div className="sidebar">
-            <Menu
-                style={{ width: 256 }}
-                mode="inline"
-                className="sidebar"
-            >
-                <Menu.ItemGroup key="g1" title="Shelf 1">
-                    <Menu.Item key="1">Option 1</Menu.Item>
-                    <Menu.Item key="2">Option 2</Menu.Item>
+            <Menu style={{ width: 256 }} mode="inline" className="sidebar">
+                <Menu.ItemGroup key="g1" title="My Books">
+                    <Menu.Item key="1">Reading</Menu.Item>
+                    <Menu.Item key="2">Want to read</Menu.Item>
+                    <Menu.Item key="3">Read</Menu.Item>
                 </Menu.ItemGroup>
 
-                <Menu.ItemGroup key="g2" title="Shelf">
-                    <Menu.Item key="3">Option 3</Menu.Item>
-                    <Menu.Item key="4">Option 4</Menu.Item>
+                <Menu.ItemGroup key="g2" title="Bookshelves">
+                    <Menu.Item key="4">Favorites</Menu.Item>
                 </Menu.ItemGroup>
             
             </Menu>
+            <Button style={{marginTop: 185, marginLeft:120}}className="create-button"type="dashed">+ Create</Button>
         </div>
     );
 }

@@ -3,4 +3,9 @@
     font-weight: 400;
     position: absolute;
     margin-top: -0.99rem;
+    height:100% !important;
+}
+
+.create-button{
+    margin-left:1rem;
 }

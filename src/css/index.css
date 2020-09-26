@@ -1,5 +1,8 @@
 .App {
     font-family: 'Lato', sans-serif;
     font-weight: 400;
-    box-sizing: border-box;
+}
+
+.google-login {
+    width: 200px !important;
 }

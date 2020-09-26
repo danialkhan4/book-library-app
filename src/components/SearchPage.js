@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 
 import { Input } from 'antd';
 
-import Book from './Book';
+import BookCard from './BookCard';
 import '../css/booksearch.css';
 
 const { Search } = Input;
@@ -38,12 +38,6 @@ function SearchPage() {
 
     }
 
-    /*
-	* undefined handling
-	*/
-    function isUndefined(object) {
-        return typeof(object) === 'undefined' ? true : false; 
-    }
 
 
 	return (
@@ -54,23 +48,8 @@ function SearchPage() {
             <div className="listing">
             {
                 books && books.map((item, i) => {
-                    if (isUndefined(item.volumeInfo.imageLinks)) {
-                        item.volumeInfo.imageLinks = {
-                            thumbnail: "default",
-                            smallThumbnail: "default"
-                        }
-                    }
-
-                    if (isUndefined(item.volumeInfo.subtitle)) 
-                        item.volumeInfo.subtitle = false;
-                    
-                    if (isUndefined(item.volumeInfo.authors))  
-                        item.volumeInfo.authors = [" "];
-                    
-                    if (isUndefined(item.volumeInfo.title)) 
-                        item.volumeInfo.title = " ";
-
-                    return <Book key={item.id}
+                    handleUndefinedData(item); 
+                    return <BookCard key={item.id}
                         name={item.volumeInfo.title} 
                         thumbnail={item.volumeInfo.imageLinks.thumbnail} 
                         subtitle= {item.volumeInfo.subtitle}
@@ -83,4 +62,31 @@ function SearchPage() {
 	);
 }
 
+/*
+handle any undefined data from the api call before mapping
+*/
+function handleUndefinedData(item) {
+    if (isUndefined(item.volumeInfo.imageLinks)) {
+        item.volumeInfo.imageLinks = {
+            thumbnail: "default",
+            smallThumbnail: "default"
+        }
+    }
+
+    if (isUndefined(item.volumeInfo.subtitle)) 
+        item.volumeInfo.subtitle = false;
+    
+    if (isUndefined(item.volumeInfo.authors))  
+        item.volumeInfo.authors = [" "];
+    
+    if (isUndefined(item.volumeInfo.title)) 
+        item.volumeInfo.title = " ";
+}
+
+/*
+* undefined handling
+*/
+function isUndefined(object) {
+    return typeof(object) === 'undefined' ? true : false; 
+}
 export default SearchPage;
