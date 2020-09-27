@@ -1,8 +1,4 @@
 .App {
-    font-family: 'Lato', sans-serif;
     font-weight: 400;
-}
-
-.google-login {
-    width: 200px !important;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 }

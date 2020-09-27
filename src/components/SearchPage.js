@@ -1,4 +1,5 @@
 import React, {useState} from 'react';
+import axios from 'axios';
 
 import { Input } from 'antd';
 
@@ -7,33 +8,32 @@ import '../css/booksearch.css';
 
 const { Search } = Input;
 
-
 function SearchPage() {
     const [books, setBooks ] = useState([]); 
-    const [searchInput, setSearchInput] = useState(' '); 
+    const [searchInput, setSearchInput] = useState(''); 
     //const [loading, setLoading] = useState(false);
 
     function handleInput(event) {
-        setSearchInput(event.target.value);
+        setSearchInput(event.target.value.trim());
     }
     
     /*
 	* api fetch using searchInput as the query 
 	*/
     function handleSearch() {
-        if (searchInput.length === 0 || !searchInput.trim()) {
+        if (searchInput.length === 0 || !searchInput) {
             //TODO: error messages
             return;
         }
 
-        fetch("https://www.googleapis.com/books/v1/volumes?q="+searchInput.trim()+"&key=AIzaSyC8h_mfSuQv6QnzAbucMydsQlFOVEvhU_o")
-        .then(response => response.json())
-        .then(response => { 
-            if ( searchInput.length !== 0 || searchInput.trim() ) 
-                setBooks(response.items);
+        axios.get('https://www.googleapis.com/books/v1/volumes?q='+searchInput+'&key=AIzaSyC8h_mfSuQv6QnzAbucMydsQlFOVEvhU_o')
+        .then(response => {
+            console.log(response);
+            setBooks(response.data.items);
         })
-        .catch((error) => {
-            console.log("Error: ", error);
+        .catch(function (error) {
+            //TODO: error messages
+            console.log(error);
         })
 
     }
@@ -89,4 +89,5 @@ function handleUndefinedData(item) {
 function isUndefined(object) {
     return typeof(object) === 'undefined' ? true : false; 
 }
+
 export default SearchPage;

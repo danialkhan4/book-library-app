@@ -7,7 +7,7 @@ import 'antd/dist/antd.css';
 function Sidebar() {
 	return (
         <div className="sidebar">
-            <Menu style={{ width: 256 }} mode="inline" className="sidebar">
+            <Menu style={{ width: 252 }} mode="inline" className="sidebar">
                 <Menu.ItemGroup key="g1" title="My Books">
                     <Menu.Item key="1">Reading</Menu.Item>
                     <Menu.Item key="2">Want to read</Menu.Item>

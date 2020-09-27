@@ -3,7 +3,7 @@
     align-items: center;
     background-color:#FAFBFC;
     color: white;
-    box-shadow: 0 2px 4px -2px rgba(0,0,0,.2);
+    box-shadow: 0 3px 4px -2px rgba(0,0,0,.2);
     margin-bottom: 1rem;
 }
 
@@ -46,19 +46,7 @@
     background-color:#f0f3f5;
 }
 
-.toggle {
-    position: absolute;
-    left: 90%;
-    font-size: 1.5rem;
-    display: none;
-    flex-direction: column;
-    justify-content: space-between;
-    padding-top: 0.5rem;
-}
-
-.toggle .menu-item {
-    height: 3px;
-    width: 100%;
-    background-color: white;
-    border-radius: 10px;
+.google-login {
+    width: 200px !important;
+    margin-left: 20px;
 }

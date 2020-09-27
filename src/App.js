@@ -1,8 +1,7 @@
 import React from 'react';
 import {Route, BrowserRouter as Router, Link} from  'react-router-dom';
-import firebase from 'firebase/app';
-import 'firebase/firestore';
-import 'firebase/auth';
+import firebase from './firebase'
+import {auth, firestore} from './firebase'
 
 import { Button } from 'antd';
 import {MenuOutlined, LogoutOutlined} from '@ant-design/icons';
@@ -11,6 +10,7 @@ import GoogleButton from 'react-google-button'
 import Sidebar from './components/Sidebar';
 import SearchPage from './components/SearchPage';
 import Library from './components/Library';
+import LandingPage from './components/LandingPage';
 
 import './css/index.css';
 import './css/navbar.css';
@@ -20,21 +20,6 @@ import './css/navbar.css';
 import {useAuthState} from 'react-firebase-hooks/auth';
 import {useCollectionData} from 'react-firebase-hooks/firestore';
 
-
-/* firebase app */
-firebase.initializeApp({
-    apiKey: "AIzaSyCbb11Pr-rx9Sk6oFW95_eP8LmZpxEdJEM",
-    authDomain: "book-library-app-8eb19.firebaseapp.com",
-    databaseURL: "https://book-library-app-8eb19.firebaseio.com",
-    projectId: "book-library-app-8eb19",
-    storageBucket: "book-library-app-8eb19.appspot.com",
-    messagingSenderId: "553206836295",
-    appId: "1:553206836295:web:ca4ff0892ff6fd281b1562",
-    measurementId: "G-KFFN83VGEQ"
-});
-
-const auth = firebase.auth();
-const firestore = firebase.firestore();
 
 function App() {
 	const [loggedIn] = useAuthState(auth);
@@ -46,37 +31,33 @@ function App() {
 
 					<div className="title"><Link id="title" to ="/">Books Library</Link></div>
 
-					<a href="#/" className="toggle"><MenuOutlined />
-						<span className="menu-item"></span>
-						<span className="menu-item"></span>
-						<span className="menu-item"></span>
-					</a>
-
 					<div className="buttons">
 						<ul>
-						<li><Link to ="/">My Library</Link></li>
+						<li><Link to ="/library">My Library</Link></li>
 						<li><Link to ="/search">Search</Link></li>
 						<li><Link to ="/">Settings</Link></li>
 						</ul>
 					</div>
-					<div className="google-login">
-					{loggedIn ? <Button onClick={logout}><LogoutOutlined />Log out</Button> : 
-					<GoogleButton className="google-login" onClick={googleLogin} type="light"/>}
+					<div className="google-login"> 
+						{renderLogin(loggedIn)}
 					</div>
 				</div>
+				<Sidebar />
 			</div> 
-
-			{/* home page (side bar + library)*/}
-			<Route path ="/" component={Sidebar}/>
-			{loggedIn ? <Route path ="/" exact component={Library}/> : <Route path ="/" exact component={SearchPage}/>}
-			
-
-			{/* search page */}
-			<Route path ="/search" component={SearchPage}/>
+			<Route exact path ="/search" component={SearchPage}/>		
+			<Route path="/library">
+				<Library loggedIn={loggedIn} />
+			</Route>	
 		</Router>
 	);
 }
 
+function renderLogin(loggedIn) {
+	return (
+		loggedIn ? <Button onClick={logout}><LogoutOutlined />Log out</Button> :
+		<GoogleButton onClick={googleLogin} type="dark"/>
+	);
+}
 
 function googleLogin() {
 	const provider = new firebase.auth.GoogleAuthProvider();
