@@ -6,14 +6,14 @@ import { DownOutlined, ImportOutlined } from '@ant-design/icons'
 
 const { Text } = Typography;
 
-
 const menu = (
 	<Menu onClick={console.log("click")}>
 		<Menu.Item key="1">Read</Menu.Item>
 		<Menu.Item key="2">Currently reading</Menu.Item>
 		<Menu.Item key="3">Want to read</Menu.Item>
-  	</Menu>
+  </Menu>
 );
+
 function Book(props) {
 	let authorsList = [];
 	let titleString  = [];

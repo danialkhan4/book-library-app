@@ -16,7 +16,7 @@ function SearchPage() {
     function handleInput(event) {
         setSearchInput(event.target.value.trim());
     }
-    
+
     /*
 	* api fetch using searchInput as the query 
 	*/
@@ -36,8 +36,7 @@ function SearchPage() {
             console.log(error);
         })
 
-    }
-
+ }
 
 
 	return (
@@ -45,6 +44,7 @@ function SearchPage() {
             <div id="numInput">
                 <Search onChange={handleInput} placeholder="Book Title" onSearch={handleSearch} enterButton />
             </div>
+            
             <div className="listing">
             {
                 books && books.map((item, i) => {
@@ -53,7 +53,8 @@ function SearchPage() {
                         name={item.volumeInfo.title} 
                         thumbnail={item.volumeInfo.imageLinks.thumbnail} 
                         subtitle= {item.volumeInfo.subtitle}
-                        authors = {item.volumeInfo.authors}/>
+                        authors = {item.volumeInfo.authors}
+                    />
                     
                 })
             }
@@ -76,7 +77,7 @@ function handleUndefinedData(item) {
     if (isUndefined(item.volumeInfo.subtitle)) 
         item.volumeInfo.subtitle = false;
     
-    if (isUndefined(item.volumeInfo.authors))  
+    if (isUndefined(item.volumeInfo.authors))    
         item.volumeInfo.authors = [" "];
     
     if (isUndefined(item.volumeInfo.title)) 

@@ -47,6 +47,11 @@
 }
 
 .google-login {
-    width: 200px !important;
-    margin-left: 20px;
+    float: right;
+    margin-top: -71px;
+    margin-right: 10px;
+}
+
+.user-button {
+    margin-top: 7px !important;
 }

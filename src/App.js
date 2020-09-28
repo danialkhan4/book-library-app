@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import {Route, BrowserRouter as Router, Link} from  'react-router-dom';
 import firebase from './firebase'
 import {auth, firestore} from './firebase'
@@ -23,6 +23,14 @@ import {useCollectionData} from 'react-firebase-hooks/firestore';
 
 function App() {
 	const [loggedIn] = useAuthState(auth);
+	const [user, setUser] = useState(null);
+
+	useEffect(function() {
+		setUser(auth.currentUser);
+		console.log(user);
+	}, [loggedIn]); 
+
+
 	return ( 
 		<Router>
 			<div className="App">
@@ -33,20 +41,20 @@ function App() {
 
 					<div className="buttons">
 						<ul>
-						<li><Link to ="/library">My Library</Link></li>
+						<li><Link to ="/">My Library</Link></li>
 						<li><Link to ="/search">Search</Link></li>
-						<li><Link to ="/">Settings</Link></li>
+						<li><Link to ="/settings">Settings</Link></li>
 						</ul>
 					</div>
+				</div>
 					<div className="google-login"> 
 						{renderLogin(loggedIn)}
 					</div>
-				</div>
 				<Sidebar />
 			</div> 
 			<Route exact path ="/search" component={SearchPage}/>		
-			<Route path="/library">
-				<Library loggedIn={loggedIn} />
+			<Route exact path="/">
+				<Library loggedIn={loggedIn} user={user}/>
 			</Route>	
 		</Router>
 	);
@@ -54,7 +62,7 @@ function App() {
 
 function renderLogin(loggedIn) {
 	return (
-		loggedIn ? <Button onClick={logout}><LogoutOutlined />Log out</Button> :
+		loggedIn ? <Button className="user-button" onClick={logout}><LogoutOutlined />Log out</Button> :
 		<GoogleButton onClick={googleLogin} type="dark"/>
 	);
 }
