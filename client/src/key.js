@@ -8,3 +8,5 @@ export const authData = {
     appId: "1:553206836295:web:ca4ff0892ff6fd281b1562",
     measurementId: "G-KFFN83VGEQ"
 }
+
+
