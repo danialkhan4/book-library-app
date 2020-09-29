@@ -60,7 +60,7 @@ function App() {
 	);
 }
 
-function renderLogin(loggedIn) {
+function renderLogin(loggedIn, user) {
 	return (
 		loggedIn ? <Button className="user-button" onClick={logout}><LogoutOutlined />Log out</Button> :
 		<GoogleButton onClick={googleLogin} type="dark"/>
@@ -72,7 +72,7 @@ function googleLogin() {
 	auth.signInWithPopup(provider);
 }
 
-function logout() {
+function logout(user) {
 	console.log("logged out");
 	auth.signOut();
 }
