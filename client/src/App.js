@@ -3,6 +3,8 @@ import {Route, BrowserRouter as Router, Link} from  'react-router-dom';
 import firebase from './firebase'
 import {auth, firestore} from './firebase'
 
+import axios from 'axios';
+
 import { Button } from 'antd';
 import {MenuOutlined, LogoutOutlined} from '@ant-design/icons';
 import GoogleButton from 'react-google-button'
@@ -24,12 +26,19 @@ import {useCollectionData} from 'react-firebase-hooks/firestore';
 function App() {
 	const [loggedIn] = useAuthState(auth);
 	const [user, setUser] = useState(null);
-
-	useEffect(function() {
+	
+ 	useEffect( () => {
 		setUser(auth.currentUser);
-		console.log(user);
-	}, [loggedIn]); 
-
+	}, [loggedIn]);  
+	
+	useEffect(() => {
+		if (user) {
+			console.log("POSTING: " + user.uid);
+			axios.post('/user', {
+				uid: user.uid
+			})
+		} 
+	}, [user]);  
 
 	return ( 
 		<Router>
