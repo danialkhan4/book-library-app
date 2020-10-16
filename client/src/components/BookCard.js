@@ -1,4 +1,5 @@
 import React from 'react';
+import axios from 'axios';
 import { Typography, Button, Menu, Dropdown   } from 'antd';
 import '../css/bookcard.css';
 
@@ -15,44 +16,56 @@ const menu = (
 );
 
 function Book(props) {
-	let authorsList = [];
-	let titleString  = [];
+	let authorRender = [];
+	let titleRender  = [];
 
 	const len = props.authors.length - 1;
 	
 	/*
-	* push the authors into authorsList so there is a nice string like Author 1, Author 2
+	* push the authors into authorRender so there is a nice string like Author 1, Author 2
 	*/
 	for (let i = 0; i < props.authors.length; i++) {
 		if (props.authors.length === 1) {
-			authorsList.push(<Text key={i}>{props.authors[i]}</Text>);
+			authorRender.push(<Text key={i}>{props.authors[i]}</Text>);
 		} else if (i !== len) {
-			authorsList.push(<Text key={i}>{props.authors[i]}, </Text>);
+			authorRender.push(<Text key={i}>{props.authors[i]}, </Text>);
 		} else {
-			authorsList.push(<Text key={i}>{props.authors[i]}</Text>);
+			authorRender.push(<Text key={i}>{props.authors[i]}</Text>);
 		}
 	}
 
-	
 	/*
 	* push the title and subtitle together for something like Book Title: Subtitle 
 	*/
 	if (props.subtitle) {
-		titleString.push(<Text key={props.name}strong >{props.name}: {props.subtitle}<br/></Text>);
+		titleRender.push(<Text key={props.name}strong >{props.name}: {props.subtitle}<br/></Text>);
 	} else {
-		titleString.push(<Text key={props.name}strong >{props.name}<br/></Text>);
+		titleRender.push(<Text key={props.name}strong >{props.name}<br/></Text>);
 	}
 
+
+	/* handle the request and add the book to the user's library in firstore
+	*
+	*/
+	function handleAdd() {
+		const bookData = {
+			title: props.name,
+			authors: props.authors,
+			subtitle: props.subtitle,
+			thumbnail: props.thumbnail
+		}
+		axios.post('/user/add', {bookData});
+	}
 	return (
 		<div className="bookCard"> 
-			<img className="imageContainer" alt={titleString} src={props.thumbnail} />
+			<img className="imageContainer" alt={titleRender} src={props.thumbnail} />
 			<div className="textContainer" >
-				{titleString}<br/>
-				{authorsList}
+				{titleRender}<br/>
+				{authorRender}
     		</div>
 
 			<div className="options">
-				<Button style={{marginRight: 5}}><ImportOutlined />Add to Shelf</Button>
+				<Button onClick={handleAdd} style={{marginRight: 5}}><ImportOutlined />Add to Shelf</Button>
 				<Dropdown overlay={menu}>
 					<Button type="dashed">
 						Mark as <DownOutlined />
