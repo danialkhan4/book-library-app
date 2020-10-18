@@ -5,6 +5,7 @@ router.get('/', (req, res) => {
   res.json(library);
 })
   
+//retreiving stuff from user library
 router.get('/:id', (req, res) => {
   const valid = library.some(lib => lib.id === parseInt(req.params.id));
 

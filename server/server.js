@@ -2,19 +2,18 @@ const express = require('express');
 const path = require('path');
 const app = express();
 const port = 5000;
-const axios = require('axios');
 
 //firebase imports
 const admin = require('firebase-admin');
 const serviceAccount = require('./firestore.json');
-const { default: Axios } = require('axios');
 
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount)
 });
 const db = admin.firestore();
 
-
+const FieldValue = admin.firestore.FieldValue;
+let currentUser = null;
 /* setup and logger */
 app.listen(port, () => {
   console.log(`Book library app listening at http://localhost:${port}`);
@@ -40,11 +39,30 @@ app.use(express.static(path.join(__dirname, '../client/build')));
 
 app.post('/user', (req, res) => {
   console.log("GOT:" + req.body.uid);
-  userFirestore(req.body.uid);
-  //res.json(req.body);
-})
+  currentUser = req.body.uid;
+  // db_createUser(req.body.uid); --> arrayUnion creates array if its empty
+  res.json(req.body);
+});
 
-async function userFirestore(data) {
+// add to library
+app.post('/user/add', (req, res) => {
+  console.log(req.body.bookData);
+  db_addBook(req.body.bookData);
+  res.json(req.body);
+});
+
+
+// load library contents
+app.get('/library', (req, res) => {
+  const libraryData = db_data()
+  .then(result => {
+    console.log(result);
+    res.json(result);
+  });
+
+});
+
+async function db_createUser(data) {
   const userRef = db.collection('users').doc(data);
   const doc = await userRef.get();
   if (!doc.exists) {
@@ -52,4 +70,28 @@ async function userFirestore(data) {
       library:[]
     });
   }
+}
+
+async function db_addBook(data) {
+  // >> bug, currentUser somtimes logged in even if null 
+  if (currentUser) {
+    const userRef = db.collection('users').doc(currentUser);
+    const update = await userRef.update({ 
+      library: FieldValue.arrayUnion(data)
+    });
+  } else {
+    console.log('not logged in');
+    // to do handling
+  }
+}
+
+async function db_data() {
+  if (currentUser) {
+    const userRef = db.collection('users').doc(currentUser);
+    const data = await userRef.get().then(doc => doc.get('library'));
+    if (data) return data;
+  } else {
+    console.log('user not logged in');
+  }
+
 }
