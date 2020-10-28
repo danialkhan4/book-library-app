@@ -51,6 +51,14 @@ app.post('/user/add', (req, res) => {
   res.json(req.body);
 });
 
+// remove from library
+app.post('/user/remove', (req, res) => {
+  console.log(req.body.bookData);
+  db_removeBook(req.body.bookData);
+  res.json(req.body);
+});
+
+
 
 // load library contents
 app.get('/library', (req, res) => {
@@ -78,6 +86,19 @@ async function db_addBook(data) {
     const userRef = db.collection('users').doc(currentUser);
     const update = await userRef.update({ 
       library: FieldValue.arrayUnion(data)
+    });
+  } else {
+    console.log('not logged in');
+    // to do handling
+  }
+}
+
+async function db_removeBook(data) {
+  // >> bug, currentUser somtimes logged in even if null 
+  if (currentUser) {
+    const userRef = db.collection('users').doc(currentUser);
+    const update = await userRef.update({ 
+      library: FieldValue.arrayRemove({"authors": data.authors, "subtitle": data.subtitle, "thumbnail": data.thumbnail, "title": data.title})
     });
   } else {
     console.log('not logged in');

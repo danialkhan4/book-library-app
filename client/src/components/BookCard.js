@@ -1,9 +1,9 @@
-import React from 'react';
+import React, {useState} from 'react';
 import axios from 'axios';
 import { Typography, Button, Menu, Dropdown   } from 'antd';
 import '../css/bookcard.css';
 
-import { DownOutlined, ImportOutlined } from '@ant-design/icons'
+import { DownOutlined, ImportOutlined, DeleteOutlined } from '@ant-design/icons'
 
 const { Text } = Typography;
 
@@ -56,6 +56,30 @@ function Book(props) {
 		}
 		axios.post('/user/add', {bookData});
 	}
+
+	function handleRemove() {
+		console.log("removing");
+		const bookData = {
+			title: props.name,
+			authors: props.authors,
+			subtitle: props.subtitle,
+			thumbnail: props.thumbnail
+		}
+		axios.post('/user/remove', {bookData})
+		.then (function(response) {
+			console.log(response);
+			props.onChange();
+		})
+	}
+	/* check if we are rendering for library to search page */
+
+	console.log(props.isLibraryRender);
+	let button;
+	if (props.isLibraryRender) {
+		button = <Button onClick={handleRemove} style={{marginRight: 5}}><DeleteOutlined /></Button>;
+	} else {
+		button = <Button onClick={handleAdd} style={{marginRight: 5}}><ImportOutlined />Add to shelf</Button>;
+	}
 	return (
 		<div className="bookCard"> 
 			<img className="imageContainer" alt={titleRender} src={props.thumbnail} />
@@ -65,7 +89,7 @@ function Book(props) {
     		</div>
 
 			<div className="options">
-				<Button onClick={handleAdd} style={{marginRight: 5}}><ImportOutlined />Add to Shelf</Button>
+				{button}
 				<Dropdown overlay={menu}>
 					<Button type="dashed">
 						Mark as <DownOutlined />

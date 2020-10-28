@@ -28,7 +28,7 @@ function SearchPage() {
 
         axios.get('https://www.googleapis.com/books/v1/volumes?q='+searchInput+'&key=AIzaSyC8h_mfSuQv6QnzAbucMydsQlFOVEvhU_o')
         .then(response => {
-            console.log(response);
+            console.log(response.data.items);
             setBooks(response.data.items);
         })
         .catch(function (error) {
@@ -54,6 +54,7 @@ function SearchPage() {
                         thumbnail={item.volumeInfo.imageLinks.thumbnail} 
                         subtitle= {item.volumeInfo.subtitle}
                         authors = {item.volumeInfo.authors}
+                        isLibraryRender={false}
                     />
                     
                 })
