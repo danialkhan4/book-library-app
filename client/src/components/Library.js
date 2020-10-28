@@ -7,24 +7,28 @@ import '../css/library.css';
 function Library(props) {
     const [libraryBooks, setLibraryBooks ] = useState([]); 
     function loadLibrary() {
-        axios.get('/library')
-        .then(response => {
-            console.log(response.data);
-            setLibraryBooks(response.data)
-        })
-        .catch(error => {
-            //TODO: error messages
-            console.log(error);
-        })
+        if (!props.user) {
+            setLibraryBooks([]);
+        } else {
+            axios.get('/library')
+            .then(response => {
+                console.log(response.data);
+                setLibraryBooks(response.data)
+            })
+            .catch(error => {
+                //TODO: error messages
+                console.log(error);
+            })
+        }
     }
     useEffect(() => {
         loadLibrary();
     },[]);
 
-/*     useEffect(() => {
+    useEffect(() => {
         loadLibrary();
-    },[updateLibrary]); */
-    
+    },[props.user]);
+
     return (
         <div className="bookLibrary">
             { props.loggedIn ? <h1 className="library">Welcome {props.user && props.user.displayName}</h1> :
@@ -43,7 +47,6 @@ function Library(props) {
                         subtitle= {item.subtitle}
                         authors = {item.authors}
                         isLibraryRender={true}
-                        //loadLibrary={loadLibrary}
                     />
                     
                 })
@@ -51,7 +54,6 @@ function Library(props) {
             </div>
         </div>
     );
-
 }
  
 export default Library;
