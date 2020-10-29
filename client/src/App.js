@@ -1,18 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import {Route, BrowserRouter as Router, Link} from  'react-router-dom';
 import firebase from './firebase'
-import {auth, firestore} from './firebase'
+import {auth} from './firebase'
 
 import axios from 'axios';
 
 import { Button } from 'antd';
-import {MenuOutlined, LogoutOutlined} from '@ant-design/icons';
+import {LogoutOutlined} from '@ant-design/icons';
 import GoogleButton from 'react-google-button'
 
 import Sidebar from './components/Sidebar';
 import SearchPage from './components/SearchPage';
 import Library from './components/Library';
-import LandingPage from './components/LandingPage';
 
 import './css/index.css';
 import './css/navbar.css';
@@ -20,7 +19,7 @@ import './css/navbar.css';
 
 /* firebase hooks*/
 import {useAuthState} from 'react-firebase-hooks/auth';
-import {useCollectionData} from 'react-firebase-hooks/firestore';
+//import {useCollectionData} from 'react-firebase-hooks/firestore';
 
 
 function App() {
@@ -33,8 +32,7 @@ function App() {
 	
 	useEffect(() => {
 		if (user) {
-			console.log("POSTING: " + user.uid);
-			axios.post('/user', {
+			axios.post('/api/user', {
 				uid: user.uid
 			})
 		} 

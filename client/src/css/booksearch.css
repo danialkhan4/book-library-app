@@ -1,21 +1,21 @@
 /* search page */
 
 .bookSearch {
-    position: absolute;
-    margin-left:280px;
-    margin-right:25px;
-    z-index:1;
+	position: absolute;
+	margin-left:280px;
+	margin-right:25px;
+	z-index:1;
 }
 
 
 #numInput {
-    width: 350px;
+	width: 350px;
 }
 
 .listing {
-    display:flex;
-    justify-content: flex-start;
-    flex-wrap: wrap;
-    margin:10px;
-    z-index:1;
+	display:flex;
+	justify-content: flex-start;
+	flex-wrap: wrap;
+	margin:10px;
+	z-index:1;
 }

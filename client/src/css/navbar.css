@@ -1,57 +1,57 @@
 .navbar {
-    display: flex;
-    align-items: center;
-    background-color:#FAFBFC;
-    color: white;
-    box-shadow: 0 3px 4px -2px rgba(0,0,0,.2);
-    margin-bottom: 1rem;
+	display: flex;
+	align-items: center;
+	background-color:#FAFBFC;
+	color: white;
+	box-shadow: 0 3px 4px -2px rgba(0,0,0,.2);
+	margin-bottom: 1rem;
 }
 
 /* top left logo */
 .title {
-    margin: .5rem;
-    font-size: 1.2rem;
-    padding-right: 7.6rem;
+	margin: .5rem;
+	font-size: 1.2rem;
+	padding-right: 7.6rem;
 }
 
 .buttons ul {
-    -webkit-touch-callout: none; /* iOS Safari */
-    -webkit-user-select: none; /* Safari */
-    -khtml-user-select: none; /* Konqueror HTML */
-        -moz-user-select: none; /* Old versions of Firefox */
-        -ms-user-select: none; /* Internet Explorer/Edge */
-            user-select: none; /* Non-prefixed version, currently
-                                    supported by Chrome, Edge, Opera and Firefox */
-    margin: 0;
-    padding: 0;
-    display: flex;
+	-webkit-touch-callout: none; /* iOS Safari */
+	-webkit-user-select: none; /* Safari */
+	-khtml-user-select: none; /* Konqueror HTML */
+			-moz-user-select: none; /* Old versions of Firefox */
+			-ms-user-select: none; /* Internet Explorer/Edge */
+					user-select: none; /* Non-prefixed version, currently
+																	supported by Chrome, Edge, Opera and Firefox */
+	margin: 0;
+	padding: 0;
+	display: flex;
 
 
 }
-  
+
 .buttons li {
-    list-style: none;
+	list-style: none;
 }
 
 .buttons li a {
-    text-decoration: none;
-    color: #6C757D;
-    font-size: 0.9rem;
-    padding: 1.2rem;
-    display: block;
+	text-decoration: none;
+	color: #6C757D;
+	font-size: 0.9rem;
+	padding: 1.2rem;
+	display: block;
 }
 .buttons li a:hover {
-    color: black;
-    cursor: pointer;
-    background-color:#f0f3f5;
+	color: black;
+	cursor: pointer;
+	background-color:#f0f3f5;
 }
 
 .google-login {
-    float: right;
-    margin-top: -71px;
-    margin-right: 10px;
+	float: right;
+	margin-top: -71px;
+	margin-right: 10px;
 }
 
 .user-button {
-    margin-top: 7px !important;
+	margin-top: 7px !important;
 }

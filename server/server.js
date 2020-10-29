@@ -33,43 +33,53 @@ app.use(express.urlencoded({extended: false}));
 /* react pages */
 app.use(express.static(path.join(__dirname, '../client/build')));
 
-
 //app.use('/library', require('./api/Library'));
 
 
-app.post('/user', (req, res) => {
+app.post('/api/user', (req, res) => {
   console.log("GOT:" + req.body.uid);
   currentUser = req.body.uid;
-  // db_createUser(req.body.uid); --> arrayUnion creates array if its empty
-  res.json(req.body);
+  if (currentUser) {
+    db_createUser(req.body.uid); //--> arrayUnion creates array if its empty
+    res.json({msg: 'user login received and updated'});
+  } else {
+    res.status(400).msg({msg: 'user error (not found)'});
+  }
 });
 
 // add to library
-app.post('/user/add', (req, res) => {
-  console.log(req.body.bookData);
-  db_addBook(req.body.bookData);
-  res.json(req.body);
+app.post('/api/user/add', (req, res) => {
+
+  const data = req.body.bookData; 
+  if (data) {
+      db_addBook(data);
+      res.json({msg: 'book added'});
+  } else {
+    res.status(400).msg({msg: 'error (book not valid)'});
+  }
 });
 
 // remove from library
-app.post('/user/remove', (req, res) => {
-  console.log(req.body.bookData);
-  db_removeBook(req.body.bookData);
-  res.json(req.body);
+app.post('/api/user/remove', (req, res) => {
+  const data = req.body.bookData; 
+  if (data) {
+    db_removeBook(data);
+    res.json({msg: 'book removed'});
+  } else {
+    res.status(400).msg({msg: 'error (book not valid)'});
+  }
 });
-
-
-
 // load library contents
-app.get('/library', (req, res) => {
+app.get('/api/library', (req, res) => {
   const libraryData = db_data()
-  .then(result => {
-    console.log(result);
-    res.json(result);
-  });
-
+  .then(result => { res.json(result) })
+  .catch(error => { console.log(error) });
 });
 
+
+/* 
+ * FIREBASE FUNCTIONS
+ */
 async function db_createUser(data) {
   const userRef = db.collection('users').doc(data);
   const doc = await userRef.get();
@@ -115,4 +125,19 @@ async function db_data() {
     console.log('user not logged in');
   }
 
+}
+
+async function db_checkExists(data) {
+  if (currentUser) {
+    const userRef = db.collection('users').doc(currentUser);
+    const library = await userRef.get().then(doc => doc.get('library'));
+    for (let i = 0; i < library.length; i++) {
+      if ( (library[i].title === data.title) )  {
+        return true; 
+      }
+    }
+    return false;
+  } else {
+    console.log('user not logged in');
+  }
 }

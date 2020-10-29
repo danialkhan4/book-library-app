@@ -54,7 +54,7 @@ function Book(props) {
 			subtitle: props.subtitle,
 			thumbnail: props.thumbnail
 		}
-		axios.post('/user/add', {bookData});
+		axios.post('/api/user/add', {bookData});
 	}
 
 	function handleRemove() {
@@ -65,7 +65,7 @@ function Book(props) {
 			subtitle: props.subtitle,
 			thumbnail: props.thumbnail
 		}
-		axios.post('/user/remove', {bookData})
+		axios.post('/api/user/remove', {bookData})
 		.then (function(response) {
 			console.log(response);
 			props.onChange();
