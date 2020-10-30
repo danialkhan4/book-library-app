@@ -23,92 +23,92 @@ import {useAuthState} from 'react-firebase-hooks/auth';
 
 
 function App() {
-	const [loggedIn] = useAuthState(auth);
-	const [user, setUser] = useState(null);
-	
- 	useEffect( () => {
-		setUser(auth.currentUser);
-	}, [loggedIn]);  
-	
-	useEffect(() => {
-		if (user) {
-			axios.post('/api/user', {
-				uid: user.uid
-			})
-		} 
-	}, [user]);  
+  const [loggedIn] = useAuthState(auth);
+  const [user, setUser] = useState(null);
 
-	return ( 
-		<Router>
-			<div className="App">
+  useEffect( () => {
+    setUser(auth.currentUser);
+  }, [loggedIn]);  
 
-				<div className="navbar">
+  useEffect(() => {
+    if (user) {
+      axios.post('/api/user', {
+        uid: user.uid
+      })
+    } 
+  }, [user]);  
 
-					<div className="leftInfo">
-					<div className="title">
-						<Link id="title" to ="/">Books Library</Link>
-					</div>
- 
-					<div className="buttons">
-						<ul>
-						<li><Link to ="/">My Library</Link></li>
-						<li><Link to ="/search">Search</Link></li>
-						<li><Link to ="/settings">Settings</Link></li>
-						</ul>
-					</div>
+  return ( 
+    <Router>
+      <div className="App">
 
-					</div>
-				
-					<div className="rightInfo"> 
-						<div className="links">
-							<ul>
-								<li>
-									<Button href="https://github.com/danialkhan4/book-library-web-app" target="_blank" type="link" block>
-										<GithubOutlined />View Github
-									</Button>
-									</li>
-								<li>
-									<Button href="https://developers.google.com/books" target="_blank" type="link" block>
-										<ApiOutlined />Google Books
-									</Button>
-								</li>
-							</ul>
-						</div>
+        <div className="navbar">
 
-						<div className="login">
-							<ul>
-								<li>{renderLogin(loggedIn)}</li>
-							</ul>
-						</div>
+          <div className="leftInfo">
+          <div className="title">
+            <Link id="title" to ="/">Books Library</Link>
+          </div>
 
-					</div>
-				</div>
+          <div className="buttons">
+            <ul>
+            <li><Link to ="/">My Library</Link></li>
+            <li><Link to ="/search">Search</Link></li>
+            <li><Link to ="/settings">Settings</Link></li>
+            </ul>
+          </div>
 
-				<Sidebar />
-			</div> 
-			<Route exact path ="/search" component={SearchPage}/>		
-			<Route exact path="/">
-				<Library loggedIn={loggedIn} user={user}/>
-			</Route>	
-		</Router>
-	);
+          </div>
+        
+          <div className="rightInfo"> 
+            <div className="links">
+              <ul>
+                <li>
+                  <Button href="https://github.com/danialkhan4/book-library-web-app" target="_blank" type="link" block>
+                    <GithubOutlined />View Github
+                  </Button>
+                  </li>
+                <li>
+                  <Button href="https://developers.google.com/books" target="_blank" type="link" block>
+                    <ApiOutlined />Google Books
+                  </Button>
+                </li>
+              </ul>
+            </div>
+
+            <div className="login">
+              <ul>
+                <li>{renderLogin(loggedIn)}</li>
+              </ul>
+            </div>
+
+          </div>
+        </div>
+
+        <Sidebar />
+      </div> 
+      <Route exact path ="/search" component={SearchPage}/>		
+      <Route exact path="/">
+        <Library loggedIn={loggedIn} user={user}/>
+      </Route>	
+    </Router>
+  );
 }
 
 function renderLogin(loggedIn, user) {
-	return (
-		loggedIn ? <Button onClick={logout}><LogoutOutlined />Log out</Button> :
-		<GoogleButton onClick={googleLogin} type="dark"/>
-	);
+  return (
+    loggedIn ? <Button onClick={logout}><LogoutOutlined />Log out</Button> :
+    <GoogleButton onClick={googleLogin} type="dark"/>
+  );
 }
 
 function googleLogin() {
-	const provider = new firebase.auth.GoogleAuthProvider();
-	auth.signInWithPopup(provider);
+  const provider = new firebase.auth.GoogleAuthProvider();
+  auth.signInWithPopup(provider);
 }
 
 function logout(user) {
-	console.log("logged out");
-	auth.signOut();
+  console.log("logged out");
+  auth.signOut();
 }
 
 
