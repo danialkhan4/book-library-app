@@ -90,11 +90,13 @@ function Book(props) {
 
 			<div className="options">
 				{button}
-				<Dropdown overlay={menu}>
+				{ props.isLibraryRender && 
+					<Dropdown overlay={menu}>
 					<Button type="dashed">
 						Mark as <DownOutlined />
 					</Button>
 				</Dropdown>
+				}
 			</div>
 		</div> 
 

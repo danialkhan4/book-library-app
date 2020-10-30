@@ -6,7 +6,7 @@ import {auth} from './firebase'
 import axios from 'axios';
 
 import { Button } from 'antd';
-import {LogoutOutlined} from '@ant-design/icons';
+import {LogoutOutlined, GithubOutlined, ApiOutlined} from '@ant-design/icons';
 import GoogleButton from 'react-google-button'
 
 import Sidebar from './components/Sidebar';
@@ -44,7 +44,10 @@ function App() {
 
 				<div className="navbar">
 
-					<div className="title"><Link id="title" to ="/">Books Library</Link></div>
+					<div className="leftInfo">
+					<div className="title">
+						<Link id="title" to ="/">Books Library</Link>
+					</div>
 
 					<div className="buttons">
 						<ul>
@@ -53,10 +56,34 @@ function App() {
 						<li><Link to ="/settings">Settings</Link></li>
 						</ul>
 					</div>
-				</div>
-					<div className="google-login"> 
-						{renderLogin(loggedIn)}
+
 					</div>
+				
+					<div className="rightInfo"> 
+						<div className="links">
+							<ul>
+								<li>
+									<Button href="https://github.com/danialkhan4/book-library-web-app" target="_blank" type="link" block>
+										<GithubOutlined />View Github
+									</Button>
+									</li>
+								<li>
+									<Button href="https://developers.google.com/books" target="_blank" type="link" block>
+										<ApiOutlined />Google Books
+									</Button>
+								</li>
+							</ul>
+						</div>
+
+						<div className="login">
+							<ul>
+								<li>{renderLogin(loggedIn)}</li>
+							</ul>
+						</div>
+
+					</div>
+				</div>
+
 				<Sidebar />
 			</div> 
 			<Route exact path ="/search" component={SearchPage}/>		
@@ -69,7 +96,7 @@ function App() {
 
 function renderLogin(loggedIn, user) {
 	return (
-		loggedIn ? <Button className="user-button" onClick={logout}><LogoutOutlined />Log out</Button> :
+		loggedIn ? <Button onClick={logout}><LogoutOutlined />Log out</Button> :
 		<GoogleButton onClick={googleLogin} type="dark"/>
 	);
 }
