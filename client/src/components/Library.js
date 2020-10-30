@@ -49,7 +49,7 @@ function Library(props) {
             authors = {item.authors}
             isLibraryRender={true}
           />
-          
+           
         })
       }
       </div>

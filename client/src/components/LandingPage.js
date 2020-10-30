@@ -4,7 +4,7 @@ function LandingPage() {
   return (
     <div className="landing">
       <h1>Welcome</h1>
-    </div>
+    </div> 
   );
 
 }

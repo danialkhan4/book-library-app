@@ -56,7 +56,7 @@ function Book(props) {
 		}
 		axios.post('/api/user/add', {bookData});
 	}
-
+ 
 	function handleRemove() {
 		console.log("removing");
 		const bookData = {
