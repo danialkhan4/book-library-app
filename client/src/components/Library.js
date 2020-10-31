@@ -3,35 +3,49 @@ import BookCard from './BookCard';
 
 import axios from 'axios';
 import '../css/library.css';
+import { Spin } from 'antd';
 
 function Library(props) {
   const [libraryBooks, setLibraryBooks ] = useState([]); 
+  const [toUpdate, setToUpdate] = useState(false);
+  const [libraryLoading, setLibraryLoading] = useState(false);
   
-  async function loadLibrary() {
-    try {
-      if (!props.user) {
-        setLibraryBooks([]);
-      } else {
-        axios.get('/api/library')
-        .then(response => {
-          setLibraryBooks(response.data)
-        })
-        .catch(error => {
-          console.log(error);
-        });
-      }
-
-    } catch (error) {
-      console.log(error);
-    } 
+  function updateLibrary() {
+    if (toUpdate) setToUpdate(false)
+    else setToUpdate(true);
   }
   useEffect(() => {
+    setLibraryLoading(true);
+    async function loadLibrary() {
+      try {
+        if (!props.user) {
+          setLibraryBooks([]);
+          setLibraryLoading(false);
+        } else {
+          axios.get('/api/library')
+          .then(response => {
+              setLibraryBooks(response.data)
+              setLibraryLoading(false);
+          })
+          .catch(error => {
+            console.log(error);
+              setLibraryLoading(false);
+          });
+        }
+  
+      } catch (error) {
+        console.log(error);
+          setLibraryLoading(false);
+      } 
+    }
+
     loadLibrary();
-  },[props.user]);
+
+  },[props.user, toUpdate]);
 
   return (
     <div className="bookLibrary">
-      { props.loggedIn ? <h1 className="library">Welcome {props.user && props.user.displayName}</h1> :
+      { props.loggedIn ? <h3 className="library">{props.user && props.user.displayName}'s Books {libraryLoading && <Spin />}</h3> :
       <h1 className="library">Login to see your library</h1>
       }
 
@@ -43,7 +57,7 @@ function Library(props) {
           return <BookCard 
             key={item.title + item.authors}
             name={item.title} 
-            onChange={loadLibrary}
+            onChange={updateLibrary}
             thumbnail={item.thumbnail} 
             subtitle= {item.subtitle}
             authors = {item.authors}

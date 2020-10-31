@@ -1,6 +1,6 @@
-import React, {useState} from 'react';
+import React from 'react';
 import axios from 'axios';
-import { Typography, Button, Menu, Dropdown   } from 'antd';
+import { Typography, Button, Menu, Dropdown, message  } from 'antd';
 import '../css/bookcard.css';
 
 import { DownOutlined, ImportOutlined, DeleteOutlined } from '@ant-design/icons'
@@ -54,7 +54,20 @@ function Book(props) {
       subtitle: props.subtitle,
       thumbnail: props.thumbnail
     }
-    axios.post('/api/user/add', {bookData});
+    axios.post('/api/user/add', {
+      bookData
+    }).then(function(res) {
+      switch (res.status) {
+        case 227:
+          message.warning('This book is already in your library');
+          break;
+        default:
+          message.success('Book added to your library');
+          break;
+      }
+    }).catch (function(error) {
+      message.error("(Error) book was not added");
+    });
   }
  
   function handleRemove() {
@@ -65,11 +78,13 @@ function Book(props) {
       subtitle: props.subtitle,
       thumbnail: props.thumbnail
     }
-    axios.post('/api/user/remove', {bookData})
-    .then (function(response) {
-      console.log(response);
+    axios.post('/api/user/remove', {
+      bookData
+    }).then (function(response) {
       props.onChange();
-    })
+    }).catch (function(error) {
+      message.error("(Error) book was not added");
+    });
   }
   /* check if we are rendering for library to search page */
 
@@ -78,7 +93,7 @@ function Book(props) {
   if (props.isLibraryRender) {
     button = <Button onClick={handleRemove} style={{marginRight: 5}}><DeleteOutlined /></Button>;
   } else {
-    button = <Button onClick={handleAdd} style={{marginRight: 5}}><ImportOutlined />Add to shelf</Button>;
+    button = <Button type="primary" onClick={handleAdd} style={{marginRight: 5}}><ImportOutlined />Add to shelf</Button>;
   }
   return (
     <div className="bookCard"> 

@@ -43,19 +43,28 @@ app.post('/api/user', (req, res) => {
     db_createUser(req.body.uid); //--> arrayUnion creates array if its empty
     res.json({msg: 'user login received and updated'});
   } else {
-    res.status(400).msg({msg: 'user error (not found)'});
+    res.status(400).send({msg: 'user error (not found)'});
   }
 });
 
 // add to library
-app.post('/api/user/add', (req, res) => {
-
+app.post('/api/user/add', async (req, res) => {
   const data = req.body.bookData; 
-  if (data) {
-      db_addBook(data);
-      res.json({msg: 'book added'});
+  if (data) { 
+      db_addBook(data).then(result => {
+        if (result == 1) {
+          return res.status(227).send({msg: 'book already in library'});
+        } else if (result == -1) {
+          return res.status(400).send({msg: 'error (account error)'});
+        } else {
+          return res.json({msg: 'book added'});
+        }
+      }).catch(err => {
+        res.status(400).send({msg: 'Error occurred'});
+      });
+
   } else {
-    res.status(400).msg({msg: 'error (book not valid)'});
+    res.status(400).send({msg: 'error (book not valid)'});
   }
 });
 
@@ -63,17 +72,21 @@ app.post('/api/user/add', (req, res) => {
 app.post('/api/user/remove', (req, res) => {
   const data = req.body.bookData; 
   if (data) {
-    db_removeBook(data);
+    db_removeBook(data).catch(err => {
+      res.status(400).send({msg: 'error occurred'});
+    });
     res.json({msg: 'book removed'});
   } else {
-    res.status(400).msg({msg: 'error (book not valid)'});
+    res.status(400).send({msg: 'error (book not valid)'});
   }
 });
 // load library contents
 app.get('/api/library', (req, res) => {
   const libraryData = db_data()
   .then(result => { res.json(result) })
-  .catch(error => { console.log(error) });
+  .catch(err => {
+    res.status(400).send({msg: 'error occurred'});
+  });
 });
 
 
@@ -94,12 +107,21 @@ async function db_addBook(data) {
   // >> bug, currentUser somtimes logged in even if null 
   if (currentUser) {
     const userRef = db.collection('users').doc(currentUser);
+
+    const library = await userRef.get().then(doc => doc.get('library'));
+    for (let i = 0; i < library.length; i++) {
+      if ( (library[i].title === data.title) )  {
+        console.log("already found")
+        return 1;
+      }
+    }
     const update = await userRef.update({ 
       library: FieldValue.arrayUnion(data)
     });
+    return 0;
   } else {
-    console.log('not logged in');
-    // to do handling
+    // not logged in 
+    return -1;
   }
 }
 
@@ -110,9 +132,9 @@ async function db_removeBook(data) {
     const update = await userRef.update({ 
       library: FieldValue.arrayRemove({"authors": data.authors, "subtitle": data.subtitle, "thumbnail": data.thumbnail, "title": data.title})
     });
+    return 0;
   } else {
-    console.log('not logged in');
-    // to do handling
+    return -1;
   }
 }
 
@@ -122,7 +144,7 @@ async function db_data() {
     const data = await userRef.get().then(doc => doc.get('library'));
     if (data) return data;
   } else {
-    console.log('user not logged in');
+    return -1; 
   }
 
 }

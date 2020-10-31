@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import axios from 'axios';
 
-import { Input } from 'antd';
+import { Input, Spin, message } from 'antd';
 
 import BookCard from './BookCard';
 import '../css/booksearch.css';
@@ -11,7 +11,7 @@ const { Search } = Input;
 function SearchPage() {
   const [books, setBooks ] = useState([]); 
   const [searchInput, setSearchInput] = useState(''); 
-  //const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   function handleInput(event) {
     setSearchInput(event.target.value.trim());
@@ -21,48 +21,54 @@ function SearchPage() {
 	* api fetch using searchInput as the query 
 	*/
   async function handleSearch() {
+    setLoading(true);
     try {
       if (searchInput.length === 0 || !searchInput) {
-        //TODO: error messages
+        message.warning("Please enter something");
+        setLoading(false);
         return;
       }
   
       axios.get('https://www.googleapis.com/books/v1/volumes?q='+searchInput+'&key=AIzaSyC8h_mfSuQv6QnzAbucMydsQlFOVEvhU_o')
       .then(response => { 
-        console.log(response.data.items);
         setBooks(response.data.items);
+        setLoading(false);
       })
       .catch(function (error) {
-        console.log(error);
+        message.error("Error occurred ");
+        setLoading(false);
       });
 
     } catch (error) {
-      console.log(error);
+      message.error("Error occurred ");
+      setLoading(false);
     }
 
  }
 
-
 	return (
 		<div className="bookSearch">
       <div id="numInput">
-        <Search onChange={handleInput} placeholder="Book Title" onSearch={handleSearch} enterButton />
+          <Search onChange={handleInput} placeholder="Book Title" onSearch={handleSearch} enterButton />
       </div>
-      
+
+      <div id="spinner">
+        {loading && <Spin/>} 
+      </div>
       <div className="listing">
-      {
-        books && books.map((item, i) => {
-          handleUndefinedData(item); 
-          return <BookCard key={item.id}
-            name={item.volumeInfo.title} 
-            thumbnail={item.volumeInfo.imageLinks.thumbnail} 
-            subtitle= {item.volumeInfo.subtitle}
-            authors = {item.volumeInfo.authors}
-            isLibraryRender={false}
-          />
-          
-        })
-      }
+        {
+          books && books.map((item, i) => {
+            handleUndefinedData(item); 
+            return <BookCard key={item.id}
+              name={item.volumeInfo.title} 
+              thumbnail={item.volumeInfo.imageLinks.thumbnail} 
+              subtitle= {item.volumeInfo.subtitle}
+              authors = {item.volumeInfo.authors}
+              isLibraryRender={false}
+            />
+            
+          })
+        }
       </div>
     </div>
 	);

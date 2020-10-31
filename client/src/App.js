@@ -5,17 +5,16 @@ import {auth} from './firebase'
 
 import axios from 'axios';
 
-import { Button } from 'antd';
+import { Button, message} from 'antd';
 import {LogoutOutlined, GithubOutlined, ApiOutlined} from '@ant-design/icons';
 import GoogleButton from 'react-google-button'
 
-import Sidebar from './components/Sidebar';
 import SearchPage from './components/SearchPage';
 import Library from './components/Library';
 
 import './css/index.css';
 import './css/navbar.css';
-
+import 'antd/dist/antd.css';
 
 /* firebase hooks*/
 import {useAuthState} from 'react-firebase-hooks/auth';
@@ -34,6 +33,9 @@ function App() {
     if (user) {
       axios.post('/api/user', {
         uid: user.uid
+
+      }).catch(function(error) {
+        message.error("Error occurred");
       })
     } 
   }, [user]);  
@@ -84,7 +86,6 @@ function App() {
           </div>
         </div>
 
-        <Sidebar />
       </div> 
       <Route exact path ="/search" component={SearchPage}/>		
       <Route exact path="/">

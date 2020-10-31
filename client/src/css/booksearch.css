@@ -7,15 +7,20 @@
   z-index:1;
 }
 
-
 #numInput {
   width: 350px;
+}
+
+#spinner {
+  position: absolute;
+  margin-left:360px !important;
+  margin-top: -25px;
 }
 
 .listing {
   display:flex;
   justify-content: flex-start;
   flex-wrap: wrap;
-  margin:10px;
+  margin-left:1px !important;
   z-index:1;
 }
