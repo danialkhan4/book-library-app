@@ -13,7 +13,7 @@ admin.initializeApp({
 const db = admin.firestore();
 
 const FieldValue = admin.firestore.FieldValue;
-let currentUser = null;
+
 /* setup and logger */
 app.listen(port, () => {
   console.log(`Book library app listening at http://localhost:${port}`);
@@ -29,29 +29,16 @@ app.use(logger);
 app.use(express.json());
 app.use(express.urlencoded({extended: false}));
 
-
 /* react pages */
 app.use(express.static(path.join(__dirname, '../client/build')));
 
 //app.use('/library', require('./api/Library'));
 
-
-app.post('/api/user', (req, res) => {
-  console.log("GOT:" + req.body.uid);
-  currentUser = req.body.uid;
-  if (currentUser) {
-    db_createUser(req.body.uid); //--> arrayUnion creates array if its empty
-    res.json({msg: 'user login received and updated'});
-  } else {
-    res.status(400).send({msg: 'user error (not found)'});
-  }
-});
-
 // add to library
 app.post('/api/user/add', async (req, res) => {
   const data = req.body.bookData; 
   if (data) { 
-      db_addBook(data).then(result => {
+      db_addBook(req.body.uid, data).then(result => {
         if (result == 1) {
           return res.status(227).send({msg: 'book already in library'});
         } else if (result == -1) {
@@ -72,7 +59,7 @@ app.post('/api/user/add', async (req, res) => {
 app.post('/api/user/remove', (req, res) => {
   const data = req.body.bookData; 
   if (data) {
-    db_removeBook(data).catch(err => {
+    db_removeBook(req.body.uid, data).catch(err => {
       res.status(400).send({msg: 'error occurred'});
     });
     res.json({msg: 'book removed'});
@@ -80,9 +67,10 @@ app.post('/api/user/remove', (req, res) => {
     res.status(400).send({msg: 'error (book not valid)'});
   }
 });
+
 // load library contents
 app.get('/api/library', (req, res) => {
-  const libraryData = db_data()
+  const libraryData = db_data(req.query.uid)
   .then(result => { res.json(result) })
   .catch(err => {
     res.status(400).send({msg: 'error occurred'});
@@ -103,49 +91,37 @@ async function db_createUser(data) {
   }
 }
 
-async function db_addBook(data) {
+async function db_addBook(user, data) {
   // >> bug, currentUser somtimes logged in even if null 
-  if (currentUser) {
-    const userRef = db.collection('users').doc(currentUser);
 
-    const library = await userRef.get().then(doc => doc.get('library'));
-    for (let i = 0; i < library.length; i++) {
-      if ( (library[i].title === data.title) )  {
-        console.log("already found")
-        return 1;
-      }
+  const userRef = db.collection('users').doc(user);
+
+  const library = await userRef.get().then(doc => doc.get('library'));
+  for (let i = 0; i < library.length; i++) {
+    if ( (library[i].title === data.title) )  {
+      console.log("already found")
+      return 1;
     }
-    const update = await userRef.update({ 
-      library: FieldValue.arrayUnion(data)
-    });
-    return 0;
-  } else {
-    // not logged in 
-    return -1;
   }
+  const update = await userRef.update({ 
+    library: FieldValue.arrayUnion(data)
+  });
 }
 
-async function db_removeBook(data) {
+async function db_removeBook(user, data) {
   // >> bug, currentUser somtimes logged in even if null 
-  if (currentUser) {
-    const userRef = db.collection('users').doc(currentUser);
-    const update = await userRef.update({ 
-      library: FieldValue.arrayRemove({"authors": data.authors, "subtitle": data.subtitle, "thumbnail": data.thumbnail, "title": data.title})
-    });
-    return 0;
-  } else {
-    return -1;
-  }
+  const userRef = db.collection('users').doc(user);
+  const update = await userRef.update({ 
+    library: FieldValue.arrayRemove({"authors": data.authors, "subtitle": data.subtitle, "thumbnail": data.thumbnail, "title": data.title})
+  });
+  return 0;
+
 }
 
-async function db_data() {
-  if (currentUser) {
-    const userRef = db.collection('users').doc(currentUser);
-    const data = await userRef.get().then(doc => doc.get('library'));
-    if (data) return data;
-  } else {
-    return -1; 
-  }
+async function db_data(body) {
+  const userRef = db.collection('users').doc(body);
+  const data = await userRef.get().then(doc => doc.get('library'));
+  if (data) return data;
 
 }
 

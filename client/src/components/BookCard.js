@@ -1,5 +1,8 @@
 import React from 'react';
+import { useAuth } from './Auth';
+
 import axios from 'axios';
+
 import { Typography, Button, Menu, Dropdown, message  } from 'antd';
 import '../css/bookcard.css';
 
@@ -18,6 +21,7 @@ const menu = (
 function Book(props) {
   let authorRender = [];
   let titleRender  = [];
+  const {user} = useAuth();
 
   const len = props.authors.length - 1;
   
@@ -55,7 +59,8 @@ function Book(props) {
       thumbnail: props.thumbnail
     }
     axios.post('/api/user/add', {
-      bookData
+      bookData,
+      uid: user.uid
     }).then(function(res) {
       switch (res.status) {
         case 227:
@@ -79,7 +84,8 @@ function Book(props) {
       thumbnail: props.thumbnail
     }
     axios.post('/api/user/remove', {
-      bookData
+      bookData,
+      uid: user.uid
     }).then (function(response) {
       props.onChange();
     }).catch (function(error) {

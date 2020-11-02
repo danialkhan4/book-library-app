@@ -1,28 +1,38 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
+import { useAuth } from './Auth';
 import BookCard from './BookCard';
 
 import axios from 'axios';
 import '../css/library.css';
 import { Spin } from 'antd';
 
-function Library(props) {
+function Library() {
   const [libraryBooks, setLibraryBooks ] = useState([]); 
   const [toUpdate, setToUpdate] = useState(false);
   const [libraryLoading, setLibraryLoading] = useState(false);
-  
+  const {user} = useAuth();
+
+
   function updateLibrary() {
-    if (toUpdate) setToUpdate(false)
-    else setToUpdate(true);
+    if (toUpdate) {
+      setToUpdate(false)
+    } else {
+      setToUpdate(true);
+    }
   }
   useEffect(() => {
     setLibraryLoading(true);
     async function loadLibrary() {
       try {
-        if (!props.user) {
+        if (!user) {
           setLibraryBooks([]);
           setLibraryLoading(false);
         } else {
-          axios.get('/api/library')
+          axios.get('/api/library', {
+            params: {
+              uid: user.uid
+            }
+          })
           .then(response => {
               setLibraryBooks(response.data)
               setLibraryLoading(false);
@@ -41,15 +51,13 @@ function Library(props) {
 
     loadLibrary();
 
-  },[props.user, toUpdate]);
-
+  },[user, toUpdate]);
+  
   return (
     <div className="bookLibrary">
-      { props.loggedIn ? <h3 className="library">{props.user && props.user.displayName}'s Books {libraryLoading && <Spin />}</h3> :
+      { user ? <h3 className="library">{user && user.displayName}'s Books {libraryLoading && <Spin />}</h3> :
       <h1 className="library">Login to see your library</h1>
       }
-
-
       <div className="listing">
       {
         libraryBooks && libraryBooks.map((item, i) => {
