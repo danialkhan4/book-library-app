@@ -35,42 +35,45 @@ app.use(express.static(path.join(__dirname, '../client/build')));
 //app.use('/library', require('./api/Library'));
 
 // add to library
-app.post('/api/user/add', async (req, res) => {
+app.post('/api/user/add', (req, res) => {
   const data = req.body.bookData; 
-  if (data) { 
-      db_addBook(req.body.uid, data).then(result => {
-        if (result == 1) {
-          return res.status(227).send({msg: 'book already in library'});
-        } else if (result == -1) {
-          return res.status(400).send({msg: 'error (account error)'});
-        } else {
-          return res.json({msg: 'book added'});
-        }
-      }).catch(err => {
-        res.status(400).send({msg: 'Error occurred'});
-      });
+  const user = req.body.uid; 
+  if (!data) res.status(400).send({msg: 'Error occurred'});
+  if (!user) res.status(400).send({msg: 'Account error occurred'});
 
-  } else {
-    res.status(400).send({msg: 'error (book not valid)'});
-  }
+  db_addBook(req.body.uid, data).then(result => {
+    if (result == 1) {
+      return res.status(227).send({msg: 'book already in library'});
+    } else {
+      return res.json({msg: 'book added'});
+    }
+  }).catch(err => {
+  });
+
 });
 
 // remove from library
 app.post('/api/user/remove', (req, res) => {
   const data = req.body.bookData; 
-  if (data) {
-    db_removeBook(req.body.uid, data).catch(err => {
-      res.status(400).send({msg: 'error occurred'});
-    });
-    res.json({msg: 'book removed'});
-  } else {
-    res.status(400).send({msg: 'error (book not valid)'});
-  }
+  const user = req.body.uid; 
+
+  if (!data) res.status(400).send({msg: 'Error occurred'});
+  if (!user) res.status(400).send({msg: 'Account error occurred'});
+
+  db_removeBook(user, data)
+  .catch(err => {
+    res.status(400).send({msg: 'error occurred'});
+  });
+  res.json({msg: 'book removed'});
+
 });
 
 // load library contents
 app.get('/api/library', (req, res) => {
-  const libraryData = db_data(req.query.uid)
+  const user = req.query.uid; 
+  if (!user) res.status(400).send({msg: 'Account error occurred'});
+  
+  const libraryData = db_data(user)
   .then(result => { res.json(result) })
   .catch(err => {
     res.status(400).send({msg: 'error occurred'});
