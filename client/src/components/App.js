@@ -1,5 +1,5 @@
 import React from 'react';
-import { Switch, Route, BrowserRouter as Router, Link } from  'react-router-dom';
+import { Switch, Route, HashRouter as Router, Link } from  'react-router-dom';
 import { useAuth, AuthProvider} from './Auth';
 import { Button } from 'antd';
 import { GithubOutlined, ApiOutlined } from '@ant-design/icons';

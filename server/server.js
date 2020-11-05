@@ -25,13 +25,13 @@ const logger = (req, res, next) => {
 }
 app.use(logger);
 
+
 // body parser
 app.use(express.json());
 app.use(express.urlencoded({extended: false}));
 
 /* react pages */
 app.use(express.static(path.join(__dirname, '../client/build')));
-
 //app.use('/library', require('./api/Library'));
 
 // add to library
