@@ -5,7 +5,7 @@ const port = 5000;
 
 //firebase imports
 const admin = require('firebase-admin');
-const serviceAccount = require('./firestore.json');
+const serviceAccount = require('./server/firestore.json');
 
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount)
@@ -31,7 +31,7 @@ app.use(express.json());
 app.use(express.urlencoded({extended: false}));
 
 /* react pages */
-app.use(express.static(path.join(__dirname, '../client/build')));
+app.use(express.static(path.join(__dirname, './client/build')));
 //app.use('/library', require('./api/Library'));
 
 // add to library
