@@ -2,14 +2,17 @@ import React from 'react';
 import { useHistory } from 'react-router-dom';
 import { useAuth } from './Auth.js';
 
-import { message } from 'antd';
+import { Typography, message } from 'antd';
 import GoogleButton from 'react-google-button';
+
+import '../css/login.css'
 
 
 function Login() {
   const { login } = useAuth();
+  const { Text, Title  } = Typography;
   const history = useHistory();
-
+  
   async function handleLogin() {
     try {
       await login();
@@ -19,8 +22,9 @@ function Login() {
     }
   }
   return (
-    <div>
-      <GoogleButton onClick={handleLogin} type="dark"/>
+    <div className="login-card">
+        <Title level={5}>── Login ──</Title>
+        <GoogleButton id="google-login" onClick={handleLogin} type="dark"/>
     </div>
 
   );

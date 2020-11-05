@@ -1,0 +1,17 @@
+.login-card {
+  background-color:white;
+  margin: auto;
+  width: 20%;
+  height: 400px;
+  display: flex;
+  align-items: center;
+  border: 0.05rem solid#d9d9d9;
+  flex-direction: column;
+  padding-top: 20px;
+  padding-bottom: 70px;
+}
+
+#google-login {
+  display: flex;
+  justify-content: center;
+}

@@ -52,6 +52,10 @@ function Book(props) {
   *
   */
   function handleAdd() {
+    if (!user) {
+      message.error('You must be logged in to do that');
+      return;
+    }
     const bookData = {
       title: props.name,
       authors: props.authors,
@@ -76,7 +80,6 @@ function Book(props) {
   }
  
   function handleRemove() {
-    console.log("removing");
     const bookData = {
       title: props.name,
       authors: props.authors,
@@ -94,7 +97,7 @@ function Book(props) {
   }
   /* check if we are rendering for library to search page */
 
-  console.log(props.isLibraryRender);
+  //console.log(props.isLibraryRender);
   let button;
   if (props.isLibraryRender) {
     button = <Button onClick={handleRemove} style={{marginRight: 5}}><DeleteOutlined /></Button>;
