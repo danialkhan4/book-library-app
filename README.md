@@ -3,12 +3,12 @@
 ## About
 A web application that allows users to search for and create a library of their favorite books.
 
-### Features
+#### Features
 -Search for any published book using title, authors, or topic
 -Remove or add any book to your library
 -Mark books as read, currently reading, or finished
 
-### Built with
+#### Built with
 - React
 - Express
 - Ant Design
