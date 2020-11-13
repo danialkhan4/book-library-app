@@ -17,7 +17,7 @@ import 'antd/dist/antd.css';
 
 
 function App() {
-  const { user } = useAuth();
+  const { user } = useAuth(); // use to render the login/logout on navbar
   return ( 
     <Router>
       <div className="App">

@@ -16,7 +16,7 @@ function Login() {
   async function handleLogin() {
     try {
       await login();
-      history.push('/library');
+      history.push('/library'); // if logged in, redirect to /library
     } catch {
        message.error('Error occurred');
     }

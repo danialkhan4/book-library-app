@@ -4,7 +4,7 @@ import firebase, { auth } from '../firebase';
 const AuthContext = React.createContext(); 
 
 export function useAuth() {
-  return useContext(AuthContext);
+  return useContext(AuthContext); // export context for authentication 
 }
 
 export function AuthProvider( {children} ) {
@@ -31,12 +31,13 @@ export function AuthProvider( {children} ) {
     return unsub; 
   }, [])
   
-  
-  const value = {
+
+  const value = {   // object to export 
     user,
     login,
     logout
   }
+
   return (
     
     <AuthContext.Provider value={value}>

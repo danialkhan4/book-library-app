@@ -26,8 +26,8 @@
     "superagent": "^6.1.0"
   },
   "scripts": {
-    "start": "node server.js",
-    "build": "cd client && react-scripts build",
+    "start": "react-scripts start",
+    "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },

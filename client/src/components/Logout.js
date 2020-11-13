@@ -12,7 +12,7 @@ function Logout() {
   async function handleLogout() {
     try {
       await logout();
-      history.push("/");
+      history.push("/"); // if logged out, redirect to homepage
     } catch {
        message.error('Logout failed');
     }

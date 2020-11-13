@@ -9,17 +9,15 @@ import '../css/booksearch.css';
 const { Search } = Input;
 
 function SearchPage() {
-  const [books, setBooks ] = useState([]); 
-  const [searchInput, setSearchInput] = useState(''); 
+  const [books, setBooks ] = useState([]); // state to render the books 
+  const [searchInput, setSearchInput] = useState(''); // input for searching
   const [loading, setLoading] = useState(false);
 
   function handleInput(event) {
     setSearchInput(event.target.value.trim());
   }
 
-  /*
-	* api fetch using searchInput as the query 
-	*/
+	// api fetch using searchInput as the query 
   async function handleSearch() {
     setLoading(true);
     try {
@@ -45,6 +43,31 @@ function SearchPage() {
     }
 
  }
+
+  // handle any undefined data from the api call before mapping
+  function handleUndefinedData(item) {
+    if (isUndefined(item.volumeInfo.imageLinks)) {
+      item.volumeInfo.imageLinks = {
+        thumbnail: "default",
+        smallThumbnail: "default"
+      }
+    }
+
+    if (isUndefined(item.volumeInfo.subtitle)) 
+      item.volumeInfo.subtitle = false;
+    
+    if (isUndefined(item.volumeInfo.authors))  
+      item.volumeInfo.authors = [" "];
+    
+    if (isUndefined(item.volumeInfo.title)) 
+      item.volumeInfo.title = " ";
+  }
+
+  // undefined handling
+  function isUndefined(object) {
+    return typeof(object) === 'undefined' ? true : false; 
+  }
+
 
 	return (
 		<div className="bookSearch">
@@ -74,32 +97,7 @@ function SearchPage() {
 	);
 }
 
-/*
-handle any undefined data from the api call before mapping
-*/
-function handleUndefinedData(item) {
-  if (isUndefined(item.volumeInfo.imageLinks)) {
-    item.volumeInfo.imageLinks = {
-      thumbnail: "default",
-      smallThumbnail: "default"
-    }
-  }
 
-  if (isUndefined(item.volumeInfo.subtitle)) 
-    item.volumeInfo.subtitle = false;
-  
-  if (isUndefined(item.volumeInfo.authors))  
-    item.volumeInfo.authors = [" "];
-  
-  if (isUndefined(item.volumeInfo.title)) 
-    item.volumeInfo.title = " ";
-}
 
-/*
-* undefined handling
-*/
-function isUndefined(object) {
-  return typeof(object) === 'undefined' ? true : false; 
-}
 
 export default SearchPage;

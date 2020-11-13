@@ -7,12 +7,12 @@ import '../css/library.css';
 import { Spin } from 'antd';
 
 function Library() {
-  const [libraryBooks, setLibraryBooks ] = useState([]); 
+  const [libraryBooks, setLibraryBooks ] = useState([]); // state for rendering user's library
   const [toUpdate, setToUpdate] = useState(false);
   const [libraryLoading, setLibraryLoading] = useState(false);
   const {user} = useAuth();
 
-
+  // function to trigger the useEffect
   function updateLibrary() {
     if (toUpdate) {
       setToUpdate(false)
@@ -20,14 +20,17 @@ function Library() {
       setToUpdate(true);
     }
   }
+
+
   useEffect(() => {
     setLibraryLoading(true);
     async function loadLibrary() {
       try {
-        if (!user) {
+        if (!user) { // not logged in or user has logged out
           setLibraryBooks([]);
           setLibraryLoading(false);
-        } else {
+        } else { // else load the library
+          
           axios.get('/api/library', {
             params: {
               uid: user.uid
@@ -44,7 +47,7 @@ function Library() {
         }
   
       } catch (error) {
-        console.log(error);
+          console.log(error);
           setLibraryLoading(false);
       } 
     }
@@ -61,7 +64,6 @@ function Library() {
       <div className="listing">
       {
         libraryBooks && libraryBooks.map((item, i) => {
-          //handleUndefinedData(item); 
           return <BookCard 
             key={item.title + item.authors}
             name={item.title} 

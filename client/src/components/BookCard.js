@@ -25,9 +25,8 @@ function Book(props) {
 
   const len = props.authors.length - 1;
   
-  /*
-  * push the authors into authorRender so there is a nice string like Author 1, Author 2
-  */
+  // push the authors into authorRender for proper author formatting
+
   for (let i = 0; i < props.authors.length; i++) {
     if (props.authors.length === 1) {
       authorRender.push(<Text key={i}>{props.authors[i]}</Text>);
@@ -38,9 +37,8 @@ function Book(props) {
     }
   }
 
-  /*
-  * push the title and subtitle together for something like Book Title: Subtitle 
-  */
+
+  // push the title and subtitle together for proper title formatting 
   if (props.subtitle) {
     titleRender.push(<Text key={props.name}strong >{props.name}: {props.subtitle}<br/></Text>);
   } else {
@@ -48,20 +46,20 @@ function Book(props) {
   }
 
 
-  /* handle the request and add the book to the user's library in firstore
-  *
-  */
+  // handle the request and add the book to the user's library in firstore
   function handleAdd() {
-    if (!user) {
+    if (!user) { // check user 
       message.error('You must be logged in to do that');
       return;
     }
-    const bookData = {
+
+    const bookData = { // create data object to post to server
       title: props.name,
       authors: props.authors,
       subtitle: props.subtitle,
       thumbnail: props.thumbnail
     }
+
     axios.post('/api/user/add', {
       bookData,
       uid: user.uid
@@ -80,12 +78,13 @@ function Book(props) {
   }
  
   function handleRemove() {
-    const bookData = {
+    const bookData = { // object to remove
       title: props.name,
       authors: props.authors,
       subtitle: props.subtitle,
       thumbnail: props.thumbnail
     }
+    
     axios.post('/api/user/remove', {
       bookData,
       uid: user.uid
@@ -95,15 +94,17 @@ function Book(props) {
       message.error("(Error) book was not added");
     });
   }
-  /* check if we are rendering for library to search page */
 
-  //console.log(props.isLibraryRender);
+
+  // checks for render to either library or search page
   let button;
   if (props.isLibraryRender) {
     button = <Button onClick={handleRemove} style={{marginRight: 5}}><DeleteOutlined /></Button>;
   } else {
     button = <Button type="primary" onClick={handleAdd} style={{marginRight: 5}}><ImportOutlined />Add to shelf</Button>;
   }
+
+  
   return (
     <div className="bookCard"> 
       <img className="imageContainer" alt={titleRender} src={props.thumbnail} />
