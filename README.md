@@ -1,5 +1,3 @@
-### [Live Demo](https://book-library-web.herokuapp.com/)
-
 ## About
 A web application that allows users to search for and create a library of their favorite books.
 
